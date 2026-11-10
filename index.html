@@ -282,7 +282,7 @@ function openOf(k){const m=X.m[k];if(m&&m.open!=null)return m.open;const ps=Obje
 function applyRec(k){const today=iso(new Date());if(!X.rec.length||k>today.slice(0,7))return;const m=M(k);let ch=0;
  X.rec.forEach(r=>{if(m.rd[r.id])return;const dd=Math.min(r.day,new Date(+k.slice(0,4),+k.slice(5),0).getDate()),d=k+'-'+p2(dd);if(d<=today){m.tx.push({id:uid(),t:'e',a:r.a,c:r.c,n:r.n,d});m.rd[r.id]=1;ch=1}});if(ch)sv()}
 const row=x=>`<div class="tr" data-edit="${x.id}"><span class="em">${em(x.c)}</span><div style="flex:1;min-width:0"><b>${esc(x.n||x.c)}</b><br><small>${esc(x.c)} · ${x.d.slice(8)}/${x.d.slice(5,7)}</small></div><b class="${x.t=='i'?'gn':'rd'}">${x.t=='i'?'+':'−'}৳${fmt(x.a)}</b></div>`;
-const list=f=>((X.m[mm]||{tx:[]}).tx).filter(f).sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:0);
+const list=f=>((X.m[mm]||{tx:[]}).tx).filter(f).sort((a,b)=>a.id<b.id?1:a.id>b.id?-1:0);
 function ov(){applyRec(mm);const inc=tot(mm,'i'),exp=tot(mm,'e'),op=openOf(mm),bal=op+inc-exp,m=X.m[mm]||{},av=op+inc;let w='';
  Object.entries(X.cl).forEach(([c,l])=>{const s=spent(mm,c);if(s>=l)w+=`<div class="card warn">${esc(c)}: ৳${fmt(s)} / ৳${fmt(l)} – limit reached</div>`;else if(s>=l*.8)w+=`<div class="card warn am">${esc(c)}: 80% of limit used</div>`});
  const pb=(l,v,t,o)=>t>0?`<div class="card ${o?'warn':''}"><div class="ch"><b>${l}</b><span>৳${fmt(v)} / ৳${fmt(t)}</span></div><div class="bar ${o?'over':''}"><i style="width:${Math.min(100,v/t*100)}%"></i></div></div>`:'';
